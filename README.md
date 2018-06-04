@@ -7,9 +7,8 @@ Gatling is a Scala based open-source load test tool which utilises asynchronous 
 
     simply execute the following command for the home classes:
 
-    mvn -Denv=docker -DuserPerSec=2 -Dduration=50 gatling:execute -Dgatling.simulationClass=simulations.LoadTestAllResources
+    ./gradlew -Denv=docker -DuserPerSec=10 -Dduration=20 gatlingRun-simulations.LoadTestOnlyHtmls
 
-    mvn -Denv=docker -DuserPerSec=2 -Dduration=50 gatling:execute -Dgatling.simulationClass=simulations.LoadTestOnlyHtmls
     
     Above commands will perform 2 hits per second and it will run for 50 secs duration. 
     For a test with 20 hits/sec and running test for 5 mins, command -DuserPerSec=20 -Dduration=300
@@ -21,11 +20,6 @@ Gatling is a Scala based open-source load test tool which utilises asynchronous 
 	a. will load test only given urls
 	
 	b. This hits ur dispatcher url
-2. LoadTestAllResources
-
-	a. will load test current urls along with sub resource like css,js, images .. except child htmls..
-	
-	b. This hits ur domain url
 	
 ### Updating urls
 

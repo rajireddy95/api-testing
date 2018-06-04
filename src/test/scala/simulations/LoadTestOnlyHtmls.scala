@@ -46,15 +46,15 @@ class LoadTestOnlyHtmls extends Simulation {
   val users = (userPerSec * duration) / ( pages.records.size)
   println(s"users :  $users")
   val scnItems = scenario("My Scenari").exec(httpLists.toList)
-  
+  println(s"111111")
    val httpProtocol = http
     .baseURL(baseUrl).inferHtmlResources(WhiteList(""".*\.html""")).disableCaching
-  
+  println(s"222222")
   val execution = scnItems
     .inject(rampUsers(users) over duration)
   setUp(execution).protocols(httpProtocol).assertions(
     global.responseTime.max.lt(500),
     global.responseTime.mean.lt(100),
     global.successfulRequests.percent.gt(95))
-
+println(s"333333")
 }
