@@ -26,7 +26,6 @@ class LoadTestOnlyHtmls extends Simulation {
   println(s"duration :  $duration")
   println(s"environment :  $env")
 
-  
   /* based on argument given, e.g. if QA is passed to maven then load qa.conf. Then assign to conf variable */
   val parsedConfig = ConfigFactory.parseFile(new File("src/test/resources/" + env + ".conf"))
   val conf = ConfigFactory.load(parsedConfig)
@@ -34,13 +33,13 @@ class LoadTestOnlyHtmls extends Simulation {
   var baseUrl = conf.getString("load.dispatcherUrl") + conf.getString("load.basePath") 
 
   println(s"domain :  $baseUrl")
-		  
+	
   val pages = jsonFile("pages.json")
   var count = 0;
   var httpLists = new ListBuffer[ChainBuilder]()
 	  for (pageNum <- 0 to pages.records.size -1) { 
 		  count +=1
-		  val path = "" + pages.records(pageNum)("page")+ "?skipCache=true"
+		  val path = "" + pages.records(pageNum)("page")
 		  println(s"url$count :  $path")
 		  httpLists += exec(http("Page: " + pages.records(pageNum)("page")).get(path))
 	  }
@@ -48,11 +47,9 @@ class LoadTestOnlyHtmls extends Simulation {
   println(s"users :  $users")
   val scnItems = scenario("My Scenari").exec(httpLists.toList)
   
-
-
    val httpProtocol = http
     .baseURL(baseUrl).inferHtmlResources(WhiteList(""".*\.html""")).disableCaching
-    
+  
   val execution = scnItems
     .inject(rampUsers(users) over duration)
   setUp(execution).protocols(httpProtocol).assertions(
